@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Gafas polarizadas negro mate">
-  <rect width="240" height="240" fill="#eaf6fc"/>
-  <path d="M40 110 h160" stroke="#1f2937" stroke-width="8" stroke-linecap="round"/>
-  <rect x="34" y="104" width="72" height="52" rx="16" fill="#1f2937"/>
-  <rect x="134" y="104" width="72" height="52" rx="16" fill="#1f2937"/>
-  <rect x="42" y="112" width="56" height="36" rx="12" fill="#3b4a5a"/>
-  <rect x="142" y="112" width="56" height="36" rx="12" fill="#3b4a5a"/>
-  <path d="M106 122 h28" stroke="#1f2937" stroke-width="8" stroke-linecap="round"/>
-</svg>

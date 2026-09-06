@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Gafas Ray-Style clásicas">
-  <rect width="240" height="240" fill="#eaf6fc"/>
-  <path d="M44 104 h152" stroke="#0b3a4f" stroke-width="8" stroke-linecap="round"/>
-  <path d="M38 104 h72 v18 a30 30 0 0 1 -60 0 z" fill="#0b3a4f"/>
-  <path d="M130 104 h72 v18 a30 30 0 0 1 -60 0 z" fill="#0b3a4f"/>
-  <path d="M110 110 h20" stroke="#0b3a4f" stroke-width="8" stroke-linecap="round"/>
-</svg>

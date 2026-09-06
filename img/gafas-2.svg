@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Gafas Aurora de cristal">
-  <rect width="240" height="240" fill="#eaf6fc"/>
-  <path d="M40 108 h160" stroke="#c9962f" stroke-width="6" stroke-linecap="round"/>
-  <circle cx="82" cy="122" r="34" fill="#bfe8f7" stroke="#c9962f" stroke-width="6"/>
-  <circle cx="158" cy="122" r="34" fill="#bfe8f7" stroke="#c9962f" stroke-width="6"/>
-  <path d="M116 118 h8" stroke="#c9962f" stroke-width="6" stroke-linecap="round"/>
-</svg>
