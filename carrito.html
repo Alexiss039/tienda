@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O'Clock Lens | Carrito de compra</title>
+  <meta name="description" content="Revisa los productos de tu carrito y procede al pago en O'Clock Lens.">
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="contenedor encabezado__interno">
+      <a class="marca" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo de O'Clock Lens">
+        <span>O'CLOCK</span>&nbsp;LENS
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="menu">
+          <li><a href="index.html">Catálogo</a></li>
+          <li><a class="activo" href="carrito.html">Carrito</a></li>
+          <li><a href="login.html">Iniciar sesión</a></li>
+          <li><a href="registro.html">Crear cuenta</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="principal">
+    <div class="contenedor">
+      <section class="seccion" aria-labelledby="titulo-carrito">
+        <h1 class="seccion__titulo" id="titulo-carrito">Tu carrito</h1>
+        <p class="seccion__descripcion">2 productos en tu carrito · revisa antes de pagar.</p>
+
+        <div class="carrito">
+
+          <!-- Lista de productos del carrito -->
+          <ul class="lista-carrito">
+            <li class="item-carrito">
+              <div class="item-carrito__imagen">
+                <img src="img/r-2.jpg" alt="Reloj Curren Acero Dorado">
+              </div>
+              <div class="item-carrito__info">
+                <h3>Reloj Curren Acero Dorado</h3>
+                <p>Cantidad: 1</p>
+                <p class="item-carrito__precio">$189.000</p>
+              </div>
+              <a class="boton boton--borde" href="carrito.html">Quitar</a>
+            </li>
+
+            <li class="item-carrito">
+              <div class="item-carrito__imagen">
+                <img src="img/g-1.jpg" alt="Gafas Polarizadas Negro Mate">
+              </div>
+              <div class="item-carrito__info">
+                <h3>Gafas Polarizadas Negro Mate</h3>
+                <p>Cantidad: 2</p>
+                <p class="item-carrito__precio">$190.000</p>
+              </div>
+              <a class="boton boton--borde" href="carrito.html">Quitar</a>
+            </li>
+          </ul>
+
+          <!-- Resumen del pedido -->
+          <aside class="resumen" aria-labelledby="titulo-resumen">
+            <h2 id="titulo-resumen">Resumen del pedido</h2>
+            <p class="resumen__linea"><span>Subtotal</span> <span>$379.000</span></p>
+            <p class="resumen__linea"><span>Descuento</span> <span>-$18.900</span></p>
+            <p class="resumen__linea"><span>Envío</span> <span>Gratis</span></p>
+            <p class="resumen__linea resumen__linea--total"><span>Total</span> <span>$360.100</span></p>
+            <a class="boton boton--primario boton--bloque" href="login.html">Proceder al pago</a>
+            <a class="boton boton--borde boton--bloque" href="index.html">Seguir comprando</a>
+          </aside>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie__columnas">
+        <div>
+          <h3>O'Clock Lens</h3>
+          <p>Relojes y gafas · Medellín, Colombia</p>
+        </div>
+        <div>
+          <h3>Navegación</h3>
+          <ul>
+            <li><a href="index.html">Catálogo</a></li>
+            <li><a href="producto.html">Detalle de producto</a></li>
+            <li><a href="carrito.html">Carrito de compra</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cuenta</h3>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="registro.html">Crear cuenta</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="pie__creditos">&copy; 2026 O'Clock Lens. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

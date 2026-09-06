@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280" role="img" aria-label="Reloj y gafas destacados">
+  <circle cx="120" cy="120" r="80" fill="#0b3a4f" stroke="#00baff" stroke-width="10"/>
+  <circle cx="120" cy="120" r="54" fill="#f6f8fb"/>
+  <line x1="120" y1="120" x2="120" y2="82" stroke="#0b3a4f" stroke-width="6" stroke-linecap="round"/>
+  <line x1="120" y1="120" x2="150" y2="134" stroke="#00baff" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="120" cy="120" r="6" fill="#0b3a4f"/>
+  <g transform="translate(150 180)">
+    <path d="M0 20 h150" stroke="#00baff" stroke-width="7" stroke-linecap="round"/>
+    <rect x="0" y="10" width="60" height="44" rx="14" fill="#051b26" stroke="#00baff" stroke-width="6"/>
+    <rect x="90" y="10" width="60" height="44" rx="14" fill="#051b26" stroke="#00baff" stroke-width="6"/>
+  </g>
+</svg>
