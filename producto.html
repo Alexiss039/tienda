@@ -61,6 +61,15 @@
             <li>Garantía de 12 meses.</li>
           </ul>
 
+          <div class="cantidad">
+            <label for="cantidad">Cantidad</label>
+            <div class="cantidad__control">
+              <button type="button" class="cantidad__boton" id="cantidad-menos" aria-label="Disminuir cantidad" disabled>&minus;</button>
+              <input type="number" id="cantidad" name="cantidad" value="1" min="1" readonly>
+              <button type="button" class="cantidad__boton" id="cantidad-mas" aria-label="Aumentar cantidad">+</button>
+            </div>
+          </div>
+
           <div class="detalle__acciones">
             <a class="boton boton--primario" href="carrito.html">Añadir al carrito</a>
             <a class="boton boton--borde" href="index.html">Seguir viendo productos</a>
@@ -99,5 +108,6 @@
     </div>
   </footer>
 
+  <script src="js/cantidad.js"></script>
 </body>
 </html>
