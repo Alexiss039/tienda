@@ -1,0 +1,32 @@
+classDiagram
+  direction TB
+  %% Nivel 4 - Código: Strategy + Factory Method (descuentos de cupón, RN-03)
+
+  class CarritoService {
+    +aplicarCupon(usuarioId, codigo)
+    +resumen(usuarioId) Resumen
+  }
+  class DescuentoFactory {
+    +crear(cupon)$ EstrategiaDescuento
+  }
+  class EstrategiaDescuento {
+    <<abstract>>
+    +calcular(subtotal) number
+    +etiqueta() string
+  }
+  class SinDescuento {
+    +calcular(subtotal) number
+  }
+  class DescuentoPorcentual {
+    -porcentaje: number
+    +calcular(subtotal) number
+  }
+  class DescuentoFijo {
+    -valor: number
+    +calcular(subtotal) number
+  }
+  CarritoService ..> DescuentoFactory : pide la estrategia
+  DescuentoFactory ..> EstrategiaDescuento : crea
+  EstrategiaDescuento <|-- SinDescuento
+  EstrategiaDescuento <|-- DescuentoPorcentual
+  EstrategiaDescuento <|-- DescuentoFijo

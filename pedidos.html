@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O'Clock Lens | Mis pedidos</title>
+  <meta name="description" content="Consulta el estado de tus pedidos en O'Clock Lens.">
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="encabezado" id="encabezado"></header>
+
+  <main class="principal">
+    <div class="contenedor">
+      <section class="seccion" aria-labelledby="titulo-pedidos">
+        <h1 class="seccion__titulo" id="titulo-pedidos">Mis pedidos</h1>
+        <p class="seccion__descripcion">Estado de cada una de tus compras.</p>
+        <div id="avisos"></div>
+        <div class="contenedor-tabla"><table class="tabla" id="tabla-pedidos"></table></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie" id="pie"></footer>
+
+  <script src="js/cargar.js"></script>
+  <script src="js/paginas/pedidos.js"></script>
+</body>
+</html>

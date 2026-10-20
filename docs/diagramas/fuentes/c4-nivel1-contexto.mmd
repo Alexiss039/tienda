@@ -1,0 +1,18 @@
+flowchart TB
+  %% Nivel 1 - Contexto del sistema O'Clock Lens
+  cliente["<b>Cliente</b><br/>[Persona]<br/>Visitante o comprador de relojes y gafas"]:::persona
+  admin["<b>Administrador</b><br/>[Persona]<br/>Gestiona catálogo, pedidos y despachos"]:::persona
+  oclock["<b>O'Clock Lens</b><br/>[Sistema de software]<br/>Catálogo, carrito con cupones, checkout,<br/>seguimiento de pedidos y panel administrativo"]:::sistema
+  wompi["<b>Pasarela de pago Wompi</b><br/>[Sistema externo]<br/>Procesa el pago y notifica con firma SHA-256<br/>(simulada en el prototipo)"]:::externo
+  correo["<b>Servicio de correo</b><br/>[Sistema externo]<br/>Confirmación de compra al cliente y al administrador<br/>(simulado en la bitácora)"]:::externo
+
+  cliente -->|"Explora, compra y consulta pedidos"| oclock
+  admin -->|"Administra productos y despacha pedidos"| oclock
+  oclock -->|"Solicita el cobro / recibe la notificación"| wompi
+  oclock -->|"Solicita el envío de correos"| correo
+  classDef persona fill:#08427b,stroke:#052e56,color:#fff
+  classDef sistema fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef externo fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+  classDef contenedor fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef componente fill:#85bbf0,stroke:#5d82a8,color:#000
+  classDef bd fill:#438dd5,stroke:#2e6295,color:#fff

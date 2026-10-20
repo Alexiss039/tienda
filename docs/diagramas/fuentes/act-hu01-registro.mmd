@@ -1,0 +1,16 @@
+flowchart TD
+  %% HU-01 Registro de cuenta
+  inicio((Inicio)) --> a1[Abrir formulario de registro]
+  a1 --> a2[Completar nombre, apellidos, correo, celular, dirección, ciudad, barrio y contraseña]
+  a2 --> a3[Enviar formulario]
+  a3 --> d1{¿Correo ya registrado?}
+  d1 -- Sí --> e1[Mostrar error: el correo ya está en uso]
+  e1 --> a2
+  d1 -- No --> d2{¿Contraseñas iguales y de 6+ caracteres?}
+  d2 -- No --> e2[Mostrar error de contraseña]
+  e2 --> a2
+  d2 -- Sí --> a4[Cifrar la contraseña con SHA-256]
+  a4 --> a5[Crear usuario con rol Cliente]
+  a5 --> a6[Iniciar sesión automáticamente]
+  a6 --> a7[Redirigir al catálogo]
+  a7 --> fin(((Fin)))

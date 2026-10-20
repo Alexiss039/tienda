@@ -658,3 +658,260 @@ ul {
     text-align: center;
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* 12. Avisos, tablas, estados y formularios del prototipo funcional          */
+/* -------------------------------------------------------------------------- */
+.menu__usuario {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+}
+
+.aviso {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  margin-bottom: var(--espacio-md);
+  border: 1px solid transparent;
+}
+
+.aviso--info { background-color: #e7f6fd; border-color: #bfe6f7; color: var(--color-azul-profundo); }
+.aviso--exito { background-color: #e8f6ee; border-color: #bfe3cd; color: #1d6b3f; }
+.aviso--error { background-color: #fdecec; border-color: #f5c2c2; color: #a12a2a; }
+
+.campo select,
+.campo textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.65rem 0.8rem;
+  border: 1.5px solid var(--color-borde);
+  border-radius: 10px;
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+}
+
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--color-cian);
+}
+
+.formulario-ancho {
+  max-width: 44rem;
+}
+
+.rejilla-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 var(--espacio-md);
+}
+
+.contenedor-tabla {
+  overflow-x: auto;
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tabla th,
+.tabla td {
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--color-borde);
+  vertical-align: middle;
+}
+
+.tabla th {
+  background-color: #f1f6fa;
+  color: var(--color-azul-profundo);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tabla img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.insignia {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #eef2f6;
+  color: var(--color-texto-suave);
+}
+
+.insignia--Exitoso, .insignia--disponible { background-color: #e8f6ee; color: #1d6b3f; }
+.insignia--rechazado, .insignia--agotado { background-color: #fdecec; color: #a12a2a; }
+.insignia--Enviado { background-color: #e7f6fd; color: var(--color-cian-oscuro); }
+.insignia--Entregado { background-color: #ece8fb; color: #5b3fc4; }
+.insignia--Pendiente { background-color: #fff4dc; color: #8a5a00; }
+
+.acciones-fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.boton--pequeno {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.cupon {
+  display: flex;
+  gap: var(--espacio-xs);
+  margin: var(--espacio-sm) 0;
+}
+
+.cupon input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  padding: 0.55rem 0.7rem;
+  border: 1.5px solid var(--color-borde);
+  border-radius: 10px;
+}
+
+.comentario {
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  margin-bottom: var(--espacio-xs);
+}
+
+.comentario small {
+  color: var(--color-texto-suave);
+}
+
+.pasarela {
+  max-width: 26rem;
+  border-top: 4px solid #5b3fc4;
+}
+
+.pasarela__sello {
+  font-size: 0.75rem;
+  color: var(--color-texto-suave);
+  text-align: center;
+  margin-top: var(--espacio-sm);
+}
+
+.pista {
+  font-size: 0.8rem;
+  color: var(--color-texto-suave);
+}
+
+@media (max-width: 640px) {
+  .rejilla-campos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 13. Panel lateral de datos de prueba (prototipo académico)                 */
+/* -------------------------------------------------------------------------- */
+.panel-pruebas {
+  position: fixed;
+  top: 110px;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  transition: transform 0.2s ease;
+}
+
+.panel-pruebas--cerrado {
+  transform: translateX(calc(100% - 34px));
+}
+
+.panel-pruebas__pestana {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  width: 34px;
+  padding: 0.9rem 0;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--color-azul-profundo);
+  border: none;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+}
+
+.panel-pruebas__cuerpo {
+  width: 270px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-right: none;
+  border-radius: var(--radio) 0 0 var(--radio);
+  box-shadow: var(--sombra);
+  padding: var(--espacio-sm);
+  font-size: 0.85rem;
+}
+
+.panel-pruebas__cuerpo h2 {
+  font-size: 1rem;
+  margin-bottom: var(--espacio-xs);
+}
+
+.panel-pruebas__cuerpo h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-texto-suave);
+  margin: var(--espacio-sm) 0 0.25rem;
+}
+
+.panel-pruebas__cuerpo p {
+  margin-bottom: 0.5rem;
+  line-height: 1.45;
+}
+
+.panel-pruebas__cuerpo code {
+  font-size: 0.8rem;
+  background-color: #eef3f7;
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+}
+
+.panel-pruebas__dato {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--color-cian-oscuro);
+  background-color: #eef3f7;
+  border: none;
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  cursor: pointer;
+}
+
+.panel-pruebas__dato:hover {
+  background-color: #d5eefa;
+}
+
+@media (max-width: 860px) {
+  .panel-pruebas {
+    top: auto;
+    bottom: 12px;
+  }
+
+  .panel-pruebas__cuerpo {
+    max-height: 60vh;
+  }
+}

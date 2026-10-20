@@ -1,0 +1,16 @@
+flowchart TD
+  %% HU-13 Ver listado de pedidos (y HU-14 despacho)
+  inicio((Inicio)) --> d0{¿Sesión con rol Admin?}
+  d0 -- No --> r1[Redirigir al catálogo]
+  r1 --> fin(((Fin)))
+  d0 -- Sí --> a1[Abrir el módulo de pedidos]
+  a1 --> a2[Cargar pedidos del almacén]
+  a2 --> a3[Mostrar cliente, productos, total y estado]
+  a3 --> d1{¿Registrar despacho?}
+  d1 -- No --> fin
+  d1 -- Sí --> a4[Indicar estado, número de guía y entidad de envío]
+  a4 --> d2{¿Pago exitoso y datos completos?}
+  d2 -- No --> e1[Mostrar error]
+  e1 --> a4
+  d2 -- Sí --> a5[Actualizar el pedido]
+  a5 --> a3

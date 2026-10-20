@@ -4,98 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>O'Clock Lens | Crear cuenta</title>
-  <meta name="description" content="Regístrate en O'Clock Lens y compra relojes y gafas con envío gratis a Medellín.">
+  <meta name="description" content="Regístrate en O'Clock Lens y compra relojes y gafas en línea.">
   <link rel="icon" type="image/svg+xml" href="img/logo.svg">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <header class="encabezado">
-    <div class="contenedor encabezado__interno">
-      <a class="marca" href="index.html">
-        <img src="img/logo.svg" alt="Logotipo de O'Clock Lens">
-        <span>O'CLOCK</span>&nbsp;LENS
-      </a>
-      <nav aria-label="Navegación principal">
-        <ul class="menu">
-          <li><a href="index.html">Catálogo</a></li>
-          <li><a href="login.html">Iniciar sesión</a></li>
-          <li><a class="activo" href="registro.html">Crear cuenta</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <header class="encabezado" id="encabezado"></header>
 
   <main class="principal">
     <div class="contenedor">
       <section class="seccion" aria-labelledby="titulo-registro">
         <h1 class="seccion__titulo" id="titulo-registro">Crear cuenta</h1>
-        <p class="seccion__descripcion">
-          Completa el formulario para registrarte. Solo te tomará un minuto.
-        </p>
+        <p class="seccion__descripcion">Completa el formulario para registrarte. Solo te tomará un minuto.</p>
+        <div id="avisos"></div>
 
-        <form class="tarjeta-formulario" action="login.html" method="get">
-          <div class="campo">
-            <label for="nombre">Nombre completo</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ej. Ana López" required>
+        <form class="tarjeta-formulario formulario-ancho" id="form-registro">
+          <div class="rejilla-campos">
+            <div class="campo"><label for="nombre">Nombre</label><input type="text" id="nombre" required></div>
+            <div class="campo"><label for="apellidos">Apellidos</label><input type="text" id="apellidos" required></div>
+            <div class="campo"><label for="correo">Correo electrónico</label><input type="email" id="correo" required></div>
+            <div class="campo"><label for="celular">Celular</label><input type="tel" id="celular" required></div>
+            <div class="campo"><label for="direccion">Dirección</label><input type="text" id="direccion" required></div>
+            <div class="campo"><label for="ciudad">Ciudad</label><input type="text" id="ciudad" required></div>
+            <div class="campo"><label for="barrio">Barrio</label><input type="text" id="barrio" required></div>
+            <div></div>
+            <div class="campo"><label for="clave">Contraseña</label><input type="password" id="clave" required></div>
+            <div class="campo"><label for="clave2">Repetir contraseña</label><input type="password" id="clave2" required></div>
           </div>
-
-          <div class="campo">
-            <label for="correo">Correo electrónico</label>
-            <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" required>
-          </div>
-
-          <div class="campo">
-            <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" name="telefono" placeholder="300 000 0000">
-          </div>
-
-          <div class="campo">
-            <label for="clave">Contraseña</label>
-            <input type="password" id="clave" name="clave" placeholder="Crea una contraseña" required>
-          </div>
-
-          <div class="campo">
-            <label for="clave2">Repetir contraseña</label>
-            <input type="password" id="clave2" name="clave2" placeholder="Repite la contraseña" required>
-          </div>
-
           <button type="submit" class="boton boton--primario boton--bloque">Registrarme</button>
-
-          <p class="formulario__pie">
-            ¿Ya tienes cuenta? <a href="login.html">Iniciar sesión</a>
-          </p>
+          <p class="formulario__pie">¿Ya tienes cuenta? <a href="login.html">Iniciar sesión</a></p>
         </form>
       </section>
     </div>
   </main>
 
-  <footer class="pie">
-    <div class="contenedor">
-      <div class="pie__columnas">
-        <div>
-          <h3>O'Clock Lens</h3>
-          <p>Relojes y gafas · Medellín, Colombia</p>
-        </div>
-        <div>
-          <h3>Navegación</h3>
-          <ul>
-            <li><a href="index.html">Catálogo</a></li>
-            <li><a href="producto.html">Detalle de producto</a></li>
-            <li><a href="carrito.html">Carrito de compra</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Cuenta</h3>
-          <ul>
-            <li><a href="login.html">Iniciar sesión</a></li>
-            <li><a href="registro.html">Crear cuenta</a></li>
-          </ul>
-        </div>
-      </div>
-      <p class="pie__creditos">&copy; 2026 O'Clock Lens. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+  <footer class="pie" id="pie"></footer>
 
+  <script src="js/cargar.js"></script>
+  <script src="js/paginas/registro.js"></script>
 </body>
 </html>

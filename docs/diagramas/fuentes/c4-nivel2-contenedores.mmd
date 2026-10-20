@@ -1,0 +1,26 @@
+flowchart TB
+  %% Nivel 2 - Contenedores de O'Clock Lens (prototipo)
+  cliente["<b>Cliente</b><br/>[Persona]"]:::persona
+  admin["<b>Administrador</b><br/>[Persona]"]:::persona
+
+  subgraph oclock ["O'Clock Lens [Sistema]"]
+    paginas["<b>Páginas web</b><br/>[HTML5 + CSS3]<br/>Catálogo, detalle, carrito, checkout,<br/>pedidos, login, registro y panel admin"]:::contenedor
+    app["<b>Aplicación JavaScript</b><br/>[JavaScript, por capas]<br/>Servicios, reglas de negocio y patrones<br/>Strategy, Factory y Adapter"]:::contenedor
+    almacen[("<b>Almacén de datos</b><br/>[localStorage JSON]<br/>Simula la base de datos MySQL<br/>del sistema real")]:::bd
+  end
+
+  wompi["<b>Wompi (simulada)</b><br/>[Sistema externo]<br/>Devuelve APPROVED o DECLINED con checksum"]:::externo
+  correo["<b>Correo (simulado)</b><br/>[Sistema externo]<br/>Registro de envíos en la bitácora"]:::externo
+
+  cliente -->|"Usa [navegador]"| paginas
+  admin -->|"Usa [navegador]"| paginas
+  paginas -->|"Invoca servicios [JS]"| app
+  app -->|"Lee y escribe [JSON]"| almacen
+  app -->|"Cobra y valida la firma [Adapter]"| wompi
+  app -->|"Notifica la compra"| correo
+  classDef persona fill:#08427b,stroke:#052e56,color:#fff
+  classDef sistema fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef externo fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+  classDef contenedor fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef componente fill:#85bbf0,stroke:#5d82a8,color:#000
+  classDef bd fill:#438dd5,stroke:#2e6295,color:#fff

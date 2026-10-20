@@ -1,0 +1,68 @@
+classDiagram
+  direction TB
+  %% Nivel 4 - Modelo de dominio refinado a partir del diagrama de clases del Entregable 1
+
+  class Usuario {
+    +id
+    +nombre
+    +apellidos
+    +correo
+    +celular
+    +direccion
+    +ciudad
+    +barrio
+    +claveHash
+    +rol: Admin | Cliente
+  }
+  class Producto {
+    +id
+    +nombre
+    +precio
+    +descripcion
+    +especificaciones
+    +imagen
+    +oferta
+    +estado: disponible | agotado
+  }
+  class Categoria { +nombre }
+  class Marca { +nombre }
+  class Proveedor { +nombre }
+  class Comentario {
+    +texto
+    +fecha
+  }
+  class Cupon {
+    +codigo
+    +descuento
+    +estado
+  }
+  class Carrito {
+    +items
+    +cupon
+  }
+  class Pedido {
+    +referencia
+    +subtotal
+    +descuento
+    +envio
+    +total
+    +estado: Pendiente | Exitoso | rechazado | Enviado | Entregado
+    +guia
+    +entidad
+    +fecha
+  }
+  class ItemPedido {
+    +nombre
+    +precio
+    +cantidad
+  }
+
+  Producto "*" --> "1" Categoria : pertenece (RN-01)
+  Producto "*" --> "0..1" Marca : marca opcional
+  Producto "*" --> "1" Proveedor : proveedor obligatorio
+  Producto "1" --> "*" Comentario : tiene
+  Usuario "1" --> "*" Comentario : publica
+  Usuario "1" --> "1" Carrito : posee
+  Carrito "*" --> "0..1" Cupon : aplica
+  Usuario "1" --> "*" Pedido : realiza
+  Pedido "1" *-- "*" ItemPedido : contiene

@@ -1,0 +1,17 @@
+flowchart TD
+  %% HU-11 Gestionar productos (Administrador)
+  inicio((Inicio)) --> d0{¿Sesión con rol Admin?}
+  d0 -- No --> r1[Redirigir al catálogo]
+  r1 --> fin(((Fin)))
+  d0 -- Sí --> a1[Abrir el listado de productos]
+  a1 --> d1{¿Qué acción?}
+  d1 -- Crear o editar --> a2[Completar nombre, precio, categoría, proveedor, imagen y demás datos]
+  a2 --> d2{¿Datos obligatorios completos?}
+  d2 -- No --> e1[Mostrar error de validación]
+  e1 --> a2
+  d2 -- Sí --> a3[Guardar el producto]
+  d1 -- Eliminar --> a4[Confirmar la eliminación]
+  a4 --> a5[Eliminar el producto y sus comentarios en cascada]
+  a3 --> a6[Actualizar el listado]
+  a5 --> a6
+  a6 --> fin

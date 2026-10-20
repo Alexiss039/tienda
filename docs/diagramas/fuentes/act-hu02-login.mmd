@@ -1,0 +1,15 @@
+flowchart TD
+  %% HU-02 Inicio de sesión
+  inicio((Inicio)) --> a1[Abrir formulario de inicio de sesión]
+  a1 --> a2[Ingresar correo y contraseña]
+  a2 --> a3[Enviar formulario]
+  a3 --> a4[Buscar usuario por correo y comparar hash de la clave]
+  a4 --> d1{¿Credenciales válidas?}
+  d1 -- No --> e1[Mostrar mensaje de error]
+  e1 --> a2
+  d1 -- Sí --> a5[Guardar la sesión]
+  a5 --> d2{¿Rol del usuario?}
+  d2 -- Admin --> a6[Redirigir al panel de pedidos]
+  d2 -- Cliente --> a7[Redirigir al catálogo o a la página solicitada]
+  a6 --> fin(((Fin)))
+  a7 --> fin

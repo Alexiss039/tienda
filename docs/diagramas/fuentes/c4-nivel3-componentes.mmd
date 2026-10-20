@@ -1,0 +1,50 @@
+flowchart TB
+  %% Nivel 3 - Componentes de la Aplicación JavaScript
+  paginas["<b>Páginas web</b><br/>[Contenedor HTML + CSS]"]:::contenedor
+
+  subgraph app ["Aplicación JavaScript [Contenedor]"]
+    ui["<b>UI y páginas</b><br/>[ui/, paginas/]<br/>Vistas, eventos, sesión y rol"]:::componente
+
+    subgraph servicios ["Capa de servicios"]
+      auth["<b>AuthService</b><br/>HU-01, HU-02"]:::componente
+      catalogo["<b>CatalogoService</b><br/>HU-04, HU-05, HU-11"]:::componente
+      carrito["<b>CarritoService</b><br/>HU-07, HU-08"]:::componente
+      checkout["<b>CheckoutService</b><br/>HU-09 orquesta el pago"]:::componente
+      pedidos["<b>PedidoService</b><br/>HU-13, HU-14"]:::componente
+      notificador["<b>Notificador y Bitácora</b><br/>Correo simulado y auditoría"]:::componente
+    end
+
+    subgraph dominio ["Capa de dominio"]
+      descuentos["<b>Descuentos</b><br/>Strategy + Factory Method"]:::componente
+      pasarela["<b>WompiAdapter</b><br/>Adapter de PasarelaPago"]:::componente
+    end
+
+    repo["<b>Almacen</b><br/>[infra/] Acceso a datos"]:::componente
+  end
+
+  almacen[("<b>localStorage</b><br/>Base de datos simulada")]:::bd
+  wompi["<b>Wompi (simulada)</b><br/>[Sistema externo]"]:::externo
+
+  paginas -->|"Carga"| ui
+  ui -->|"Usa"| auth
+  ui -->|"Usa"| catalogo
+  ui -->|"Usa"| carrito
+  ui -->|"Paga"| checkout
+  ui -->|"Consulta"| pedidos
+  checkout -->|"Resumen"| carrito
+  checkout -->|"Crea pedido"| pedidos
+  checkout -->|"Cobra"| pasarela
+  carrito -->|"Calcula descuento"| descuentos
+  pedidos -->|"Confirma compra"| notificador
+  pasarela -->|"Transacción"| wompi
+  auth --> repo
+  catalogo --> repo
+  carrito --> repo
+  pedidos --> repo
+  repo -->|"Lee y escribe"| almacen
+  classDef persona fill:#08427b,stroke:#052e56,color:#fff
+  classDef sistema fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef externo fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+  classDef contenedor fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef componente fill:#85bbf0,stroke:#5d82a8,color:#000
+  classDef bd fill:#438dd5,stroke:#2e6295,color:#fff

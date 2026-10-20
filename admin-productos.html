@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O'Clock Lens | Admin: productos</title>
+  <meta name="description" content="Gestión de productos del catálogo.">
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="encabezado" id="encabezado"></header>
+
+  <main class="principal">
+    <div class="contenedor">
+      <section class="seccion" aria-labelledby="titulo-admin">
+        <h1 class="seccion__titulo" id="titulo-admin">Gestionar productos</h1>
+        <p class="seccion__descripcion">Crea, edita y elimina los productos del catálogo.</p>
+        <div id="avisos"></div>
+
+        <form class="tarjeta-formulario formulario-ancho" id="form-producto" style="margin:0 0 2.5rem 0">
+          <h2 id="titulo-form">Crear producto</h2>
+          <div class="rejilla-campos">
+            <div class="campo"><label for="nombre">Nombre</label><input type="text" id="nombre" required></div>
+            <div class="campo"><label for="precio">Precio (COP)</label><input type="number" id="precio" min="1" required></div>
+            <div class="campo"><label for="categoria">Categoría</label><select id="categoria" required></select></div>
+            <div class="campo"><label for="marca">Marca (opcional)</label><select id="marca"></select></div>
+            <div class="campo"><label for="proveedor">Proveedor</label><select id="proveedor" required></select></div>
+            <div class="campo"><label for="imagen">Imagen</label>
+              <select id="imagen" required>
+                <option value="img/r-1.jpg">Reloj 1</option>
+                <option value="img/r-2.jpg">Reloj 2</option>
+                <option value="img/r-3.jpeg">Reloj 3</option>
+                <option value="img/g-1.jpg">Gafas 1</option>
+                <option value="img/g-2.jpg">Gafas 2</option>
+                <option value="img/g-3.jpg">Gafas 3</option>
+              </select>
+            </div>
+            <div class="campo"><label for="estado">Estado</label>
+              <select id="estado"><option value="disponible">disponible</option><option value="agotado">agotado</option></select>
+            </div>
+            <div class="campo"><label for="oferta">Etiqueta de oferta (opcional)</label><input type="text" id="oferta" placeholder="10% OFF"></div>
+          </div>
+          <div class="campo"><label for="descripcion">Descripción</label><textarea id="descripcion" rows="3"></textarea></div>
+          <div class="campo"><label for="especificaciones">Especificaciones (una por línea)</label><textarea id="especificaciones" rows="3"></textarea></div>
+          <div class="acciones-fila">
+            <button type="submit" class="boton boton--primario" id="guardar">Guardar producto</button>
+            <button type="button" class="boton boton--borde" id="cancelar" hidden>Cancelar edición</button>
+          </div>
+        </form>
+
+        <div class="contenedor-tabla"><table class="tabla" id="tabla-productos"></table></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie" id="pie"></footer>
+
+  <script src="js/cargar.js"></script>
+  <script src="js/paginas/admin-productos.js"></script>
+</body>
+</html>

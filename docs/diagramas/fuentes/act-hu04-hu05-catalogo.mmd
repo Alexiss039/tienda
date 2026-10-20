@@ -1,0 +1,13 @@
+flowchart TD
+  %% HU-04 Explorar catálogo y HU-05 Ver detalle de producto
+  inicio((Inicio)) --> a1[Abrir la página principal]
+  a1 --> a2[Cargar productos del almacén]
+  a2 --> a3[Filtrar solo los de estado disponible]
+  a3 --> a4[Mostrar tarjetas con imagen, nombre y precio]
+  a4 --> a5[Seleccionar Ver detalle de un producto]
+  a5 --> d1{¿El producto existe y está disponible?}
+  d1 -- No --> e1[Mostrar aviso: producto no disponible]
+  e1 --> fin(((Fin)))
+  d1 -- Sí --> a6[Mostrar descripción, características, precio, marca y categoría]
+  a6 --> a7[Mostrar comentarios existentes]
+  a7 --> fin

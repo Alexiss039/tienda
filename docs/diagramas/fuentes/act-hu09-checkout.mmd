@@ -1,0 +1,30 @@
+flowchart TD
+  %% HU-09 Realizar pedido con Wompi (con carriles)
+  inicio((Inicio)) --> c1
+  subgraph Cliente
+    c1[Revisar carrito y aplicar cupón opcional]
+    c2[Confirmar y abrir el pago]
+    c3[Ingresar datos de la tarjeta y pagar]
+    c9[Consultar el resultado en Mis pedidos]
+  end
+  subgraph Sistema
+    s1[Calcular subtotal, descuento y envío de $10.000]
+    s2[Crear pedido en estado Pendiente]
+    s3[Enviar el cobro mediante el adaptador de pasarela]
+    s4{¿Firma de la notificación válida?}
+    s5[Registrar error en la bitácora sin cambiar el pedido]
+    s6{¿Pago aprobado?}
+    s7[Marcar pedido Exitoso]
+    s8[Enviar correos al cliente y al administrador]
+    s9[Vaciar el carrito]
+    s10[Marcar pedido rechazado y conservar el carrito]
+  end
+  subgraph Wompi
+    w1[Procesar la transacción y devolver estado con checksum]
+  end
+  c1 --> s1 --> c2 --> c3 --> s2 --> s3 --> w1 --> s4
+  s4 -- No --> s5 --> c9
+  s4 -- Sí --> s6
+  s6 -- Sí --> s7 --> s8 --> s9 --> c9
+  s6 -- No --> s10 --> c9
+  c9 --> fin(((Fin)))

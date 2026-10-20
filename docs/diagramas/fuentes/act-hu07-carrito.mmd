@@ -1,0 +1,15 @@
+flowchart TD
+  %% HU-07 Agregar producto al carrito
+  inicio((Inicio)) --> a1[Ver producto disponible]
+  a1 --> a2[Indicar cantidad]
+  a2 --> a3[Presionar Añadir al carrito]
+  a3 --> d1{¿Usuario autenticado?}
+  d1 -- No --> a4[Redirigir a iniciar sesión]
+  a4 --> a3
+  d1 -- Sí --> d2{¿Producto ya está en el carrito?}
+  d2 -- Sí --> a5[Sumar la cantidad a la existente]
+  d2 -- No --> a6[Agregar el producto con la cantidad indicada]
+  a5 --> a7[Guardar el carrito del usuario]
+  a6 --> a7
+  a7 --> a8[Actualizar contador del menú y confirmar con aviso]
+  a8 --> fin(((Fin)))

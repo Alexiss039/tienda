@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O'Clock Lens | Pago con Wompi (simulado)</title>
+  <meta name="description" content="Pasarela de pago simulada para el prototipo académico.">
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="encabezado" id="encabezado"></header>
+
+  <main class="principal">
+    <div class="contenedor">
+      <section class="seccion" aria-labelledby="titulo-pago">
+        <h1 class="seccion__titulo" id="titulo-pago">Confirmar y pagar</h1>
+        <p class="seccion__descripcion">Revisa el resumen y completa el pago en la pasarela.</p>
+        <div id="avisos"></div>
+        <div class="carrito">
+          <form class="tarjeta-formulario pasarela" id="form-pago" style="margin:0" novalidate>
+            <h2>Wompi <small class="pista">(pasarela simulada)</small></h2>
+            <div class="campo">
+              <label for="tarjeta">Número de tarjeta</label>
+              <input type="text" id="tarjeta" inputmode="numeric" value="4242 4242 4242 4242" required>
+              <p class="pista">Prueba: 4242 4242 4242 4242 aprueba el pago · 4111 1111 1111 1111 lo rechaza.</p>
+            </div>
+            <div class="rejilla-campos">
+              <div class="campo">
+                <label for="vence">Vence (MM/AA)</label>
+                <input type="text" id="vence" value="12/30">
+              </div>
+              <div class="campo">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" value="123">
+              </div>
+            </div>
+            <button type="submit" class="boton boton--primario boton--bloque" id="pagar">Pagar</button>
+            <p class="pasarela__sello">Pago simulado · no se realiza ningún cobro real.</p>
+          </form>
+          <aside class="resumen" aria-labelledby="titulo-resumen" id="resumen"></aside>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie" id="pie"></footer>
+
+  <script src="js/cargar.js"></script>
+  <script src="js/paginas/checkout.js"></script>
+</body>
+</html>

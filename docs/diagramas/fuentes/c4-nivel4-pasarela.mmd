@@ -1,0 +1,35 @@
+classDiagram
+  direction TB
+  %% Nivel 4 - Código: Adapter (pasarela de pago) y servicio de checkout
+
+  class CheckoutService {
+    +pagar(usuario, tarjeta) Pedido
+  }
+  class CarritoService {
+    +resumen(usuarioId) Resumen
+    +vaciar(usuarioId)
+  }
+  class PedidoService {
+    +crearPendiente(usuario, resumen) Pedido
+    +aplicarNotificacionPago(notificacion, pasarela, correo) Pedido
+  }
+  class PasarelaPago {
+    <<interface>>
+    +cobrar(solicitud) Promise
+    +validarNotificacion(notificacion) boolean
+  }
+  class WompiAdapter {
+    -api: WompiSimuladoApi
+    +cobrar(solicitud) Promise
+    +validarNotificacion(notificacion) boolean
+  }
+  class WompiSimuladoApi {
+    -secretoEventos: string
+    +crearTransaccion(datos) Promise
+    +firmar(transaccion) string
+  }
+  CheckoutService --> CarritoService
+  CheckoutService --> PedidoService
+  CheckoutService --> PasarelaPago : depende de la abstracción
+  PasarelaPago <|.. WompiAdapter
+  WompiAdapter --> WompiSimuladoApi : adapta
