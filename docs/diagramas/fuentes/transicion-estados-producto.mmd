@@ -1,0 +1,18 @@
+stateDiagram-v2
+  %% Diagrama de transición de estados del Producto (HU-11 y RF-04): solo los productos disponibles se muestran en la tienda
+  direction LR
+  [*] --> disponible : el administrador crea el producto
+  [*] --> agotado : el administrador lo crea como agotado
+  disponible --> agotado : el administrador lo marca como agotado
+  agotado --> disponible : el administrador lo vuelve a habilitar
+  disponible --> [*] : el administrador lo elimina (con sus comentarios)
+  agotado --> [*] : el administrador lo elimina (con sus comentarios)
+
+  note right of disponible
+    Visible en el catálogo
+    y se puede agregar al carrito
+  end note
+  note right of agotado
+    Oculto en el catálogo
+    (RF-04)
+  end note

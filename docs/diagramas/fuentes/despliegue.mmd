@@ -1,0 +1,37 @@
+flowchart LR
+  %% Diagrama de despliegue (UML) del prototipo O'Clock Lens: del equipo del desarrollador al navegador del usuario.
+
+  subgraph DEV ["«device» Equipo del desarrollador"]
+    subgraph IDE ["«execution environment» Editor + Git + Node.js"]
+      CODIGO["«artifact»<br/><b>Código fuente</b><br/>HTML, CSS y JavaScript (tienda/)"]
+      TESTS["«artifact»<br/><b>tests/pedidos.test.js</b><br/>29 pruebas de State y Observer"]
+    end
+  end
+
+  subgraph GH ["«cloud» GitHub"]
+    REPO["«artifact»<br/><b>Repositorio Alexiss039/tienda</b><br/>rama main"]
+  end
+
+  subgraph NET ["«cloud» Netlify"]
+    CDN["«execution environment»<br/>Hosting de sitios estáticos (CDN)<br/>oclocklens.netlify.app"]
+    SITIO["«artifact»<br/><b>Sitio estático publicado</b><br/>páginas, js/, css/, img/"]
+  end
+
+  subgraph USR ["«device» Equipo del usuario (cliente o administrador)"]
+    subgraph NAV ["«execution environment» Navegador web (Chrome, Edge, Firefox)"]
+      APP["«artifact»<br/><b>Páginas + aplicación JavaScript</b><br/>capas: infraestructura, dominio, servicios, UI"]
+      SIM["«component»<br/><b>Wompi y correo simulados</b><br/>WompiSimuladoApi, bitácora"]
+      LS[("«artifact»<br/><b>localStorage</b><br/>base de datos del prototipo")]
+    end
+  end
+
+  FIGMA["«cloud»<br/><b>Figma</b><br/>prototipo de diseño de las pantallas"]
+
+  CODIGO -->|"git push (HTTPS)"| REPO
+  TESTS -.->|"verifica"| CODIGO
+  REPO -->|"publicación del sitio"| SITIO
+  SITIO --- CDN
+  CDN -->|"HTTPS: HTML, CSS, JS e imágenes"| APP
+  APP -->|"llamadas locales"| SIM
+  APP -->|"lee y escribe (JSON)"| LS
+  FIGMA -.->|"referencia visual"| CODIGO

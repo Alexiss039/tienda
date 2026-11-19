@@ -6,12 +6,14 @@ function pintarPedidos() {
   document.getElementById('tabla-pedidos').innerHTML =
     '<thead><tr><th>Referencia</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Estado</th><th>Despacho</th></tr></thead><tbody>' +
     lista.map((p) => {
-      const despachable = ['Exitoso', 'Enviado', 'Entregado'].includes(p.estado);
+      // State: el propio estado indica a qué estados puede pasar el administrador
+      const siguientes = EstadoPedido.de(p.estado).siguientesManuales();
+      const despachable = siguientes.length > 0;
       return '<tr data-id="' + p.id + '"><td>' + UI.escapar(p.referencia) + '<br><small class="pista">' + UI.escapar(p.fecha) + '</small></td><td>' +
         UI.escapar(p.cliente) + '</td><td>' + p.items.map((i) => UI.escapar(i.nombre) + ' × ' + i.cantidad).join('<br>') +
         '</td><td>' + UI.moneda(p.total) + '</td><td><span class="insignia insignia--' + p.estado + '">' + p.estado + '</span></td><td>' +
         (despachable
-          ? '<div class="acciones-fila"><select data-campo="estado" aria-label="Estado"><option' + (p.estado === 'Enviado' ? ' selected' : '') + '>Enviado</option><option' + (p.estado === 'Entregado' ? ' selected' : '') + '>Entregado</option></select>' +
+          ? '<div class="acciones-fila"><select data-campo="estado" aria-label="Estado">' + siguientes.map((s) => '<option>' + s + '</option>').join('') + '</select>' +
             '<input data-campo="guia" placeholder="N.º de guía" value="' + UI.escapar(p.guia) + '" aria-label="Guía" size="10">' +
             '<input data-campo="entidad" placeholder="Entidad" value="' + UI.escapar(p.entidad) + '" aria-label="Entidad de envío" size="10">' +
             '<button type="button" class="boton boton--secundario boton--pequeno" data-guardar="' + p.id + '">Guardar</button></div>'

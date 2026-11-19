@@ -27,7 +27,7 @@ Apoyo de Release 2 y 3 (necesarios para los patrones): HU-08 cupones, HU-10 esta
 | Capa | Archivos | Responsabilidad |
 |---|---|---|
 | Infraestructura | `infra/` | `Almacen` (BD simulada), `Semilla` (datos), `sha256` |
-| Dominio | `dominio/` | Reglas de negocio y los 3 patrones de diseño |
+| Dominio | `dominio/` | Reglas de negocio y los 5 patrones de diseño |
 | Servicios | `servicios/` | Casos de uso: auth, catálogo, carrito, pedidos, checkout |
 | Interfaz | `ui/`, `paginas/` | Renderizado y eventos de cada página |
 | Composición | `app.js` | Crea e inyecta las dependencias (único lugar que conoce las clases concretas) |
@@ -38,3 +38,18 @@ Apoyo de Release 2 y 3 (necesarios para los patrones): HU-08 cupones, HU-10 esta
 | Strategy | `dominio/descuentos.js` (`EstrategiaDescuento`, `DescuentoPorcentual`, `DescuentoFijo`, `SinDescuento`) | RN-03: cupón porcentual o fijo |
 | Factory Method | `dominio/descuentos.js` (`DescuentoFactory.crear`) | Elegir la estrategia según el cupón |
 | Adapter | `dominio/pasarela.js` (`PasarelaPago` ← `WompiAdapter` → `WompiSimuladoApi`) | RF-10/11/12: integrar Wompi sin acoplar el dominio |
+| State | `dominio/estados.js` (`EstadoPedido` y 5 estados concretos) | RN-04/RN-05: transiciones válidas del pedido (Pendiente → Exitoso/rechazado → Enviado → Entregado) |
+| Observer | `dominio/eventos.js` (`EventosPedido`, `Observador`) con `RegistroEventosPedido` y `NotificadorCorreo` | RF-12/RNF-09: correo y bitácora reaccionan a los eventos del pedido sin acoplarse al servicio |
+
+## Pruebas
+Las reglas de State y Observer se verifican con 29 pruebas que no necesitan navegador ni dependencias:
+
+```
+node tests/pedidos.test.js
+```
+
+## Documentación (`docs/`)
+- `analisis-patrones-gof.md`: plantilla de análisis y selección de los 5 patrones.
+- `analisis-solid.md`: plantilla de análisis de principios SOLID.
+- `diagramas/`: fuentes Mermaid (`fuentes/`) e imágenes (`imagenes/`) de los diagramas C4, de actividades, de transición de estados, de componentes y de despliegue.
+- `capturas/`: capturas del flujo del prototipo.

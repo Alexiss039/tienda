@@ -1,8 +1,8 @@
-# Diagramas del Entregable 2 - O'Clock Lens
+# Diagramas del Entregable 3 - O'Clock Lens
 
 Cada diagrama tiene su fuente Mermaid editable en `fuentes/` y su imagen en `imagenes/`.
 
-**Enlace editable:** abrir https://mermaid.live, pegar el contenido del archivo `.mmd` y copiar el enlace de "Share" (Copy link). Pegar ese enlace en la columna "Enlace editable" de cada diagrama antes de generar el PDF.
+**Enlace editable:** abrir https://mermaid.live, pegar el contenido del archivo `.mmd` y copiar el enlace de "Share" (Copy link).
 
 ## C4 Nivel 1 - Contexto
 
@@ -26,7 +26,7 @@ Descompone el sistema en las páginas web (HTML/CSS), la aplicación JavaScript 
 
 ![C4 Nivel 3 - Componentes](imagenes/c4-nivel3-componentes.png)
 
-Detalla la aplicación JavaScript: servicios por caso de uso (Auth, Catálogo, Carrito, Pedido, Checkout), el dominio con los patrones (Descuentos = Strategy + Factory, WompiAdapter = Adapter) y el acceso a datos. Cada servicio indica las HU del MVP que soporta.
+Detalla la aplicación JavaScript: servicios por caso de uso (Auth, Catálogo, Carrito, Pedido, Checkout), el dominio con los cinco patrones (Descuentos = Strategy + Factory, WompiAdapter = Adapter, Estados del pedido = State, EventosPedido = Observer) y los observadores (bitácora y correo). Cada servicio indica las HU del MVP que soporta.
 
 - Fuente editable: [fuentes/c4-nivel3-componentes.mmd](fuentes/c4-nivel3-componentes.mmd)
 - Enlace editable (mermaid.live): _pendiente de pegar_
@@ -119,5 +119,68 @@ Acceso restringido al rol Admin (RN-06); crear/editar valida datos obligatorios 
 El administrador consulta los pedidos y, si lo desea, registra estado, guía y entidad de envío; solo se despachan pedidos con pago exitoso (RN-05).
 
 - Fuente editable: [fuentes/act-hu13-pedidos.mmd](fuentes/act-hu13-pedidos.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## C4 Nivel 4 - Código: State (estados del pedido)
+
+![C4 Nivel 4 - Código: State (estados del pedido)](imagenes/c4-nivel4-estados.png)
+
+Clases del patrón State: `EstadoPedido` define las transiciones y por defecto las rechaza; cada estado concreto habilita solo las suyas (RN-04 y RN-05). `PedidoService` delega el cambio de estado en el objeto estado y el panel de administración usa `siguientesManuales()` para ofrecer solo opciones válidas.
+
+- Fuente editable: [fuentes/c4-nivel4-estados.mmd](fuentes/c4-nivel4-estados.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## C4 Nivel 4 - Código: Observer (eventos del pedido)
+
+![C4 Nivel 4 - Código: Observer (eventos del pedido)](imagenes/c4-nivel4-eventos.png)
+
+Clases del patrón Observer: `PedidoService` emite eventos mediante `EventosPedido` y los observadores `RegistroEventosPedido` (bitácora, RNF-09) y `NotificadorCorreo` (correo, RF-12) reaccionan sin que el servicio los conozca.
+
+- Fuente editable: [fuentes/c4-nivel4-eventos.mmd](fuentes/c4-nivel4-eventos.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Diagrama de transición de estados del Pedido
+
+![Diagrama de transición de estados del Pedido](imagenes/transicion-estados-pedido.png)
+
+Ciclo de vida del pedido: nace Pendiente (RN-04), el webhook de Wompi lo pasa a Exitoso o rechazado, y solo el administrador lo pasa a Enviado y Entregado (RN-05). Rechazado y Entregado son estados finales; las notificaciones con firma inválida o repetidas no cambian el estado.
+
+- Fuente editable: [fuentes/transicion-estados-pedido.mmd](fuentes/transicion-estados-pedido.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Diagrama de transición de estados del Producto
+
+![Diagrama de transición de estados del Producto](imagenes/transicion-estados-producto.png)
+
+Un producto está disponible o agotado según lo decida el administrador (HU-11); solo los disponibles aparecen en el catálogo (RF-04). Al eliminarlo se eliminan también sus comentarios.
+
+- Fuente editable: [fuentes/transicion-estados-producto.mmd](fuentes/transicion-estados-producto.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Diagrama de componentes (UML)
+
+![Diagrama de componentes (UML)](imagenes/componentes-uml.png)
+
+Muestra los componentes del prototipo con sus interfaces provistas (círculos) y requeridas (flechas punteadas). Las interfaces destacadas son los contratos de los patrones: `PasarelaPago` (Adapter), `EstrategiaDescuento` (Strategy), `EstadoPedido` (State) y `Observador` (Observer), además de `Bitacora` y `Almacenamiento`.
+
+- Fuente editable: [fuentes/componentes-uml.mmd](fuentes/componentes-uml.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Diagrama de despliegue (UML)
+
+![Diagrama de despliegue (UML)](imagenes/despliegue.png)
+
+Despliegue del prototipo: el código se desarrolla y prueba en el equipo del desarrollador, se versiona en GitHub, se publica como sitio estático en Netlify y se ejecuta en el navegador del usuario, donde localStorage hace de base de datos y Wompi y el correo están simulados. Figma sirve de referencia visual de las pantallas.
+
+- Fuente editable: [fuentes/despliegue.mmd](fuentes/despliegue.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Actividades HU-14 Actualizar estado de envío
+
+![Actividades HU-14 Actualizar estado de envío](imagenes/act-hu14-despacho.png)
+
+El administrador elige un pedido; el estado actual (State) indica a qué estados puede pasar y la interfaz solo ofrece esas opciones. Se valida guía y entidad, se actualiza el pedido y se emite un evento que el observador de la bitácora registra (Observer).
+
+- Fuente editable: [fuentes/act-hu14-despacho.mmd](fuentes/act-hu14-despacho.mmd)
 - Enlace editable (mermaid.live): _pendiente de pegar_
 

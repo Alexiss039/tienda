@@ -10,13 +10,15 @@ flowchart TB
       catalogo["<b>CatalogoService</b><br/>HU-04, HU-05, HU-11"]:::componente
       carrito["<b>CarritoService</b><br/>HU-07, HU-08"]:::componente
       checkout["<b>CheckoutService</b><br/>HU-09 orquesta el pago"]:::componente
-      pedidos["<b>PedidoService</b><br/>HU-13, HU-14"]:::componente
-      notificador["<b>Notificador y Bitácora</b><br/>Correo simulado y auditoría"]:::componente
+      pedidos["<b>PedidoService</b><br/>HU-10, HU-13, HU-14"]:::componente
+      observadores["<b>RegistroEventosPedido y NotificadorCorreo</b><br/>Observadores: bitácora y correo"]:::componente
     end
 
     subgraph dominio ["Capa de dominio"]
       descuentos["<b>Descuentos</b><br/>Strategy + Factory Method"]:::componente
       pasarela["<b>WompiAdapter</b><br/>Adapter de PasarelaPago"]:::componente
+      estados["<b>EstadoPedido</b><br/>State: transiciones del pedido"]:::componente
+      eventos["<b>EventosPedido</b><br/>Observer: sujeto de eventos"]:::componente
     end
 
     repo["<b>Almacen</b><br/>[infra/] Acceso a datos"]:::componente
@@ -35,12 +37,15 @@ flowchart TB
   checkout -->|"Crea pedido"| pedidos
   checkout -->|"Cobra"| pasarela
   carrito -->|"Calcula descuento"| descuentos
-  pedidos -->|"Confirma compra"| notificador
+  pedidos -->|"Delega transición"| estados
+  pedidos -->|"Emite eventos"| eventos
+  eventos -->|"Notifica"| observadores
   pasarela -->|"Transacción"| wompi
   auth --> repo
   catalogo --> repo
   carrito --> repo
   pedidos --> repo
+  observadores -->|"Registra"| repo
   repo -->|"Lee y escribe"| almacen
   classDef persona fill:#08427b,stroke:#052e56,color:#fff
   classDef sistema fill:#1168bd,stroke:#0b4884,color:#fff

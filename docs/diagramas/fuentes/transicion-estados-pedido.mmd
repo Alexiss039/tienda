@@ -1,0 +1,21 @@
+stateDiagram-v2
+  %% Diagrama de transición de estados del Pedido (RN-04 y RN-05). Implementado con el patrón State (js/dominio/estados.js)
+  direction LR
+  [*] --> Pendiente : el cliente confirma el pago (checkout)
+  Pendiente --> Exitoso : webhook de Wompi APPROVED con firma válida
+  Pendiente --> rechazado : webhook de Wompi DECLINED con firma válida
+  Exitoso --> Enviado : el administrador registra guía y entidad
+  Enviado --> Enviado : el administrador corrige la guía
+  Enviado --> Entregado : el administrador confirma la entrega
+  rechazado --> [*]
+  Entregado --> [*]
+
+  note right of Pendiente
+    Una notificación con firma inválida,
+    repetida o de un pedido inexistente
+    no cambia el estado: se audita
+  end note
+  note left of rechazado
+    El carrito se conserva
+    para reintentar el pago
+  end note

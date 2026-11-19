@@ -3,7 +3,7 @@
 (function () {
   const capas = [
     'infra/sha256', 'infra/almacen', 'infra/semilla',
-    'dominio/reglas', 'dominio/descuentos', 'dominio/pasarela',
+    'dominio/reglas', 'dominio/estados', 'dominio/eventos', 'dominio/descuentos', 'dominio/pasarela',
     'servicios/bitacora', 'servicios/notificador', 'servicios/auth', 'servicios/catalogo',
     'servicios/carrito', 'servicios/pedidos', 'servicios/checkout',
     'app', 'ui/layout'

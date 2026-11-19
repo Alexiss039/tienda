@@ -1,10 +1,10 @@
-// HU-09 (estado del pedido), HU-10, HU-13 y HU-14. Solo gestiona el ciclo de vida y la persistencia
-// de los pedidos; no sabe nada de la pasarela de pago (la orquestación está en CheckoutService).
+// HU-09 (estado del pedido), HU-10, HU-13 y HU-14. Gestiona el ciclo de vida y la persistencia de los pedidos.
+// No conoce la pasarela (la orquestación está en CheckoutService), delega las transiciones en el objeto
+// EstadoPedido (State) y anuncia lo ocurrido mediante EventosPedido (Observer).
 class PedidoService {
-  constructor(almacen, notificador, bitacora) {
+  constructor(almacen, eventos) {
     this.almacen = almacen;
-    this.notificador = notificador;
-    this.bitacora = bitacora;
+    this.eventos = eventos;
   }
 
   listar() {
@@ -43,32 +43,41 @@ class PedidoService {
     const pedidos = this.listar();
     const pedido = pedidos.find((p) => p.referencia === notificacion.referencia);
     if (!pedido) {
-      this.bitacora.registrar('error', 'Notificación para un pedido no encontrado: ' + notificacion.referencia);
+      this.eventos.emitir(EventosPedido.PEDIDO_NO_ENCONTRADO, { referencia: notificacion.referencia });
       return null;
     }
     if (!pasarela.validarNotificacion(notificacion)) {
-      this.bitacora.registrar('error', 'Firma inválida en la notificación del pedido ' + pedido.referencia);
+      this.eventos.emitir(EventosPedido.FIRMA_INVALIDA, { pedido });
       return pedido;
     }
-    pedido.estado = notificacion.aprobado ? 'Exitoso' : 'rechazado';
+    // State: el estado actual decide si la transición es válida (p. ej. una notificación repetida se ignora)
+    const actual = EstadoPedido.de(pedido.estado);
+    let nuevo;
+    try {
+      nuevo = notificacion.aprobado ? actual.aprobarPago() : actual.rechazarPago();
+    } catch (error) {
+      this.eventos.emitir(EventosPedido.TRANSICION_INVALIDA, { pedido, mensaje: error.message });
+      return pedido;
+    }
+    pedido.estado = nuevo.nombre;
     this.almacen.guardar('pedidos', pedidos);
-    this.bitacora.registrar(notificacion.aprobado ? 'info' : 'warning',
-      'Pago ' + (notificacion.aprobado ? 'aprobado' : 'rechazado') + ' para el pedido ' + pedido.referencia);
-    if (notificacion.aprobado) this.notificador.confirmarCompra(pedido, correoCliente);
+    // Observer: bitácora y correo reaccionan sin que este servicio los conozca
+    this.eventos.emitir(notificacion.aprobado ? EventosPedido.PAGO_APROBADO : EventosPedido.PAGO_RECHAZADO, { pedido, correoCliente });
     return pedido;
   }
 
   // RN-05: Enviado / Entregado solo los asigna el administrador, con guía y entidad
   actualizarEnvio(id, { estado, guia, entidad }) {
-    if (!Reglas.ESTADOS_ENVIO.includes(estado)) throw new Error('Estado de envío no válido');
+    if (!['Enviado', 'Entregado'].includes(estado)) throw new Error('Estado de envío no válido');
     if (!guia || !entidad) throw new Error('Indica el número de guía y la entidad de envío');
     const pedidos = this.listar();
     const pedido = pedidos.find((p) => p.id === id);
-    if (!pedido || !['Exitoso', 'Enviado', 'Entregado'].includes(pedido.estado)) {
-      throw new Error('Solo se pueden despachar pedidos con pago exitoso');
-    }
-    Object.assign(pedido, { estado, guia, entidad });
+    if (!pedido) throw new Error('El pedido no existe');
+    const actual = EstadoPedido.de(pedido.estado);
+    const nuevo = estado === 'Enviado' ? actual.despachar() : actual.entregar();   // lanza si la transición no es válida
+    Object.assign(pedido, { estado: nuevo.nombre, guia, entidad });
     this.almacen.guardar('pedidos', pedidos);
+    this.eventos.emitir(nuevo.nombre === 'Enviado' ? EventosPedido.PEDIDO_ENVIADO : EventosPedido.PEDIDO_ENTREGADO, { pedido });
     return pedido;
   }
 }

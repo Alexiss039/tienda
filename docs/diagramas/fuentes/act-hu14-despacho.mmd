@@ -1,0 +1,23 @@
+flowchart TD
+  %% HU-14 Actualizar estado de envío (Administrador). El estado actual del pedido decide qué transiciones son válidas (State)
+  inicio((Inicio)) --> d0{¿Sesión con rol Admin?}
+  d0 -- No --> r1[Redirigir al catálogo]
+  r1 --> fin(((Fin)))
+  d0 -- Sí --> a1[Abrir el módulo de pedidos]
+  a1 --> a2[Elegir un pedido]
+  a2 --> a3[Consultar sus siguientes estados válidos según el estado actual]
+  a3 --> d1{¿El pedido tiene estados siguientes?}
+  d1 -- No: Entregado o rechazado --> a9[No se muestran controles de despacho]
+  a9 --> fin
+  d1 -- Sí --> a4[Elegir el nuevo estado e indicar número de guía y entidad de envío]
+  a4 --> d2{¿Guía y entidad completas?}
+  d2 -- No --> e1[Mostrar error de validación]
+  e1 --> a4
+  d2 -- Sí --> d3{¿La transición está permitida por el estado actual?}
+  d3 -- No --> e2[Mostrar: Transición no permitida]
+  e2 --> a4
+  d3 -- Sí --> a5[Actualizar estado, guía y entidad del pedido]
+  a5 --> a6[Emitir el evento pedido enviado o pedido entregado]
+  a6 --> a7[El observador de la bitácora registra el evento]
+  a7 --> a8[Actualizar el listado de pedidos]
+  a8 --> fin

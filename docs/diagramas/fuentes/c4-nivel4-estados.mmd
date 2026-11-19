@@ -1,0 +1,40 @@
+classDiagram
+  direction TB
+  %% Nivel 4 - Código: patrón State (ciclo de vida del pedido, RN-04 y RN-05)
+
+  class PedidoService {
+    +aplicarNotificacionPago(notificacion, pasarela, correo) Pedido
+    +actualizarEnvio(id, datos) Pedido
+  }
+  class EstadoPedido {
+    <<abstract>>
+    +nombre: string
+    +aprobarPago() EstadoPedido
+    +rechazarPago() EstadoPedido
+    +despachar() EstadoPedido
+    +entregar() EstadoPedido
+    +siguientesManuales() string[]
+    +de(nombre)$ EstadoPedido
+  }
+  class EstadoPendiente {
+    +aprobarPago() EstadoPedido
+    +rechazarPago() EstadoPedido
+  }
+  class EstadoExitoso {
+    +despachar() EstadoPedido
+    +siguientesManuales() string[]
+  }
+  class EstadoEnviado {
+    +despachar() EstadoPedido
+    +entregar() EstadoPedido
+    +siguientesManuales() string[]
+  }
+  class EstadoEntregado
+  class EstadoRechazado
+
+  PedidoService ..> EstadoPedido : delega la transición
+  EstadoPedido <|-- EstadoPendiente
+  EstadoPedido <|-- EstadoExitoso
+  EstadoPedido <|-- EstadoEnviado
+  EstadoPedido <|-- EstadoEntregado
+  EstadoPedido <|-- EstadoRechazado

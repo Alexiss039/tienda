@@ -1,0 +1,38 @@
+classDiagram
+  direction TB
+  %% Nivel 4 - Código: patrón Observer (reacciones a los eventos del pedido, RF-12 y RNF-09)
+
+  class PedidoService {
+    +aplicarNotificacionPago(notificacion, pasarela, correo) Pedido
+    +actualizarEnvio(id, datos) Pedido
+  }
+  class EventosPedido {
+    -observadores: Map
+    +suscribir(evento, observador) Function
+    +cancelar(evento, observador)
+    +emitir(evento, datos)
+  }
+  class Observador {
+    <<interface>>
+    +actualizar(evento, datos)
+  }
+  class RegistroEventosPedido {
+    -bitacora: Bitacora
+    +actualizar(evento, datos)
+  }
+  class NotificadorCorreo {
+    -bitacora: Bitacora
+    +actualizar(evento, datos)
+    +confirmarCompra(pedido, correo)
+  }
+  class Bitacora {
+    +registrar(nivel, mensaje)
+    +listar() Registro[]
+  }
+
+  PedidoService --> EventosPedido : emite eventos
+  EventosPedido o--> "*" Observador : notifica
+  Observador <|.. RegistroEventosPedido
+  Observador <|.. NotificadorCorreo
+  RegistroEventosPedido --> Bitacora
+  NotificadorCorreo --> Bitacora

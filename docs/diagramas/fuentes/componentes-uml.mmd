@@ -1,0 +1,73 @@
+flowchart TB
+  %% Diagrama de componentes (UML): componentes, interfaces provistas (círculos) e interfaces requeridas (flechas punteadas).
+  %% Se muestran como interfaces los contratos que sostienen los cinco patrones de diseño.
+
+  subgraph Presentacion ["Presentación"]
+    UI["«component»<br/><b>UI y páginas</b>"]
+  end
+
+  subgraph Servicios ["Servicios de aplicación"]
+    Auth["«component»<br/><b>AuthService</b>"]
+    Cat["«component»<br/><b>CatalogoService</b>"]
+    Carr["«component»<br/><b>CarritoService</b>"]
+    Chk["«component»<br/><b>CheckoutService</b>"]
+    Ped["«component»<br/><b>PedidoService</b>"]
+    Reg["«component»<br/><b>RegistroEventosPedido</b>"]
+    Not["«component»<br/><b>NotificadorCorreo</b>"]
+    Bit["«component»<br/><b>Bitacora</b>"]
+  end
+
+  subgraph Dominio ["Dominio"]
+    Desc["«component»<br/><b>Descuentos</b><br/>Strategy + Factory Method"]
+    Est["«component»<br/><b>Estados del pedido</b><br/>State"]
+    Ev["«component»<br/><b>EventosPedido</b><br/>Observer (sujeto)"]
+    Adp["«component»<br/><b>WompiAdapter</b><br/>Adapter"]
+  end
+
+  subgraph Infra ["Infraestructura"]
+    Alm["«component»<br/><b>Almacen</b>"]
+  end
+
+  Ext["«external»<br/><b>WompiSimuladoApi</b>"]
+  LS[("«datastore»<br/>localStorage")]
+
+  IPasarela(("PasarelaPago"))
+  IEstrategia(("EstrategiaDescuento"))
+  IEstado(("EstadoPedido"))
+  IObs(("Observador"))
+  IBit(("Bitacora API"))
+  IDatos(("Almacenamiento"))
+
+  UI -.->|requiere| Auth
+  UI -.->|requiere| Cat
+  UI -.->|requiere| Carr
+  UI -.->|requiere| Chk
+  UI -.->|requiere| Ped
+
+  Chk -.->|requiere| Carr
+  Chk -.->|requiere| Ped
+  Chk -.->|requiere| IPasarela
+  Adp ---|provee| IPasarela
+  Adp -.->|usa| Ext
+
+  Carr -.->|requiere| IEstrategia
+  Desc ---|provee| IEstrategia
+
+  Ped -.->|requiere| IEstado
+  Est ---|provee| IEstado
+  Ped -.->|requiere| Ev
+  Ev -.->|requiere| IObs
+  Reg ---|provee| IObs
+  Not ---|provee| IObs
+
+  Reg -.->|requiere| IBit
+  Not -.->|requiere| IBit
+  Bit ---|provee| IBit
+
+  Auth -.->|requiere| IDatos
+  Cat -.->|requiere| IDatos
+  Carr -.->|requiere| IDatos
+  Ped -.->|requiere| IDatos
+  Bit -.->|requiere| IDatos
+  Alm ---|provee| IDatos
+  Alm -->|persiste| LS

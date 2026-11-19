@@ -1,7 +1,13 @@
 // RF-12: notificación por correo simulada. Deja constancia en la bitácora en lugar de enviar un SMTP real.
-class NotificadorCorreo {
+// Es un observador: solo reacciona cuando un pago es aprobado.
+class NotificadorCorreo extends Observador {
   constructor(bitacora) {
+    super();
     this.bitacora = bitacora;
+  }
+
+  actualizar(evento, datos) {
+    if (evento === EventosPedido.PAGO_APROBADO) this.confirmarCompra(datos.pedido, datos.correoCliente);
   }
 
   confirmarCompra(pedido, correoCliente) {
