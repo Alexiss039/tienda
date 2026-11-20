@@ -1,0 +1,46 @@
+sequenceDiagram
+  autonumber
+  %% HU-09 Realizar pedido con Wompi (Adapter + State + Observer)
+  actor C as Cliente
+  participant UI as checkout.js
+  participant Chk as CheckoutService
+  participant Car as CarritoService
+  participant Ped as PedidoService
+  participant Pas as WompiAdapter
+  participant API as WompiSimuladoApi
+  participant Est as EstadoPedido
+  participant Ev as EventosPedido
+  participant Obs as Observadores
+  C->>UI: Ingresa la tarjeta y pulsa "Pagar"
+  UI->>Chk: pagar(usuario, tarjeta)
+  Chk->>Car: resumen(usuarioId)
+  Car-->>Chk: ítems, descuento, envío y total
+  alt el carrito está vacío
+    Chk-->>UI: Error "Tu carrito está vacío"
+    UI-->>C: Muestra el aviso de error
+  else hay productos
+    Chk->>Ped: crearPendiente(usuario, resumen)
+    Ped-->>Chk: pedido en estado Pendiente (RN-04)
+    Chk->>Pas: cobrar(referencia, total, tarjeta)
+    Pas->>API: crearTransaccion(monto en centavos, COP, tarjeta)
+    API-->>Pas: evento APPROVED o DECLINED con checksum SHA-256
+    Pas-->>Chk: notificación (aprobado, datos crudos)
+    Chk->>Ped: aplicarNotificacionPago(notificacion, pasarela, correo)
+    Ped->>Pas: validarNotificacion(notificacion)
+    alt la firma no es válida (RNF-02)
+      Ped->>Ev: emitir(pago.firmaInvalida)
+      Ev->>Obs: actualizar(): la bitácora registra el error
+      Ped-->>Chk: pedido sin cambios
+    else firma válida
+      Ped->>Est: EstadoPedido.de('Pendiente').aprobarPago() o rechazarPago()
+      Est-->>Ped: nuevo estado (Exitoso o rechazado)
+      Ped->>Ev: emitir(pago.aprobado o pago.rechazado)
+      Ev->>Obs: actualizar(): bitácora y, si fue aprobado, correos al cliente y al administrador
+      Ped-->>Chk: pedido actualizado
+    end
+    opt el pedido quedó Exitoso
+      Chk->>Car: vaciar(usuarioId)
+    end
+    Chk-->>UI: pedido
+    UI-->>C: Redirige a "Mis pedidos" con el resultado del pago
+  end

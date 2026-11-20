@@ -1,0 +1,33 @@
+sequenceDiagram
+  autonumber
+  %% HU-07 Agregar producto al carrito
+  actor C as Cliente
+  participant UI as detalle.js
+  participant Auth as AuthService
+  participant Car as CarritoService
+  participant Cat as CatalogoService
+  participant Alm as Almacen
+  C->>UI: Indica la cantidad y pulsa "Añadir al carrito"
+  UI->>Auth: usuarioActual()
+  Auth-->>UI: usuario o nulo
+  alt no hay sesión
+    UI-->>C: Redirige a iniciar sesión
+  else sesión activa
+    UI->>Car: agregar(usuarioId, productoId, cantidad)
+    Car->>Cat: obtener(productoId)
+    Cat-->>Car: producto
+    alt el producto no está disponible
+      Car-->>UI: Error "El producto no está disponible"
+      UI-->>C: Muestra el aviso de error
+    else disponible
+      Car->>Alm: leer('carritos')
+      Alm-->>Car: carrito del usuario
+      alt el producto ya estaba en el carrito
+        Car->>Car: suma la cantidad a la existente (RF-07)
+      else producto nuevo
+        Car->>Car: agrega el ítem con la cantidad indicada
+      end
+      Car->>Alm: guardar('carritos', carrito actualizado)
+      UI-->>C: Actualiza el contador del menú y confirma "Producto añadido al carrito"
+    end
+  end

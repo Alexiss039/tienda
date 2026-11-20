@@ -1,0 +1,38 @@
+sequenceDiagram
+  autonumber
+  %% HU-14 Actualizar estado de envío (State + Observer)
+  actor A as Administrador
+  participant UI as admin-pedidos.js
+  participant Ped as PedidoService
+  participant Est as EstadoPedido
+  participant Alm as Almacen
+  participant Ev as EventosPedido
+  participant Reg as RegistroEventosPedido
+  participant Bit as Bitacora
+  A->>UI: Abre "Pedidos recibidos"
+  UI->>Est: EstadoPedido.de(estado del pedido).siguientesManuales()
+  Est-->>UI: estados a los que puede pasar (por ejemplo, solo "Enviado")
+  UI-->>A: Muestra el selector con solo las opciones válidas
+  A->>UI: Elige el estado, indica guía y entidad y pulsa "Guardar"
+  UI->>Ped: actualizarEnvio(id, estado, guia, entidad)
+  alt faltan la guía o la entidad
+    Ped-->>UI: Error "Indica el número de guía y la entidad de envío"
+    UI-->>A: Muestra el aviso de error
+  else datos completos
+    Ped->>Alm: leer('pedidos')
+    Alm-->>Ped: pedidos
+    Ped->>Est: EstadoPedido.de(pedido.estado).despachar() o entregar()
+    alt transición no permitida (RN-05)
+      Est-->>Ped: Error "Transición no permitida: origen → destino"
+      Ped-->>UI: Error
+      UI-->>A: Muestra el aviso de error
+    else transición permitida
+      Est-->>Ped: nuevo estado (Enviado o Entregado)
+      Ped->>Alm: guardar('pedidos', pedido con estado, guía y entidad)
+      Ped->>Ev: emitir(pedido.enviado o pedido.entregado)
+      Ev->>Reg: actualizar(evento, datos)
+      Reg->>Bit: registrar('info', mensaje del envío o la entrega)
+      Ped-->>UI: pedido actualizado
+      UI-->>A: Actualiza el listado y confirma "Pedido actualizado"
+    end
+  end

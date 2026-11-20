@@ -1,0 +1,37 @@
+sequenceDiagram
+  autonumber
+  %% HU-11 Gestionar productos (Administrador)
+  actor A as Administrador
+  participant UI as admin-productos.js
+  participant Auth as AuthService
+  participant Cat as CatalogoService
+  participant Alm as Almacen
+  A->>UI: Abre "Gestionar productos"
+  UI->>Auth: usuarioActual()
+  Auth-->>UI: usuario con su rol
+  alt el usuario no es Admin (RN-06)
+    UI-->>A: Redirige al catálogo
+  else es Admin
+    UI->>Cat: listarTodos()
+    Cat->>Alm: leer('productos')
+    Alm-->>Cat: productos
+    Cat-->>UI: productos
+    UI-->>A: Muestra el formulario y la tabla de productos
+    alt crear o editar
+      A->>UI: Completa el formulario y pulsa "Guardar producto"
+      UI->>Cat: guardar(datos)
+      alt faltan datos obligatorios (RN-01)
+        Cat-->>UI: Error "Completa nombre, categoría, proveedor, precio e imagen"
+        UI-->>A: Muestra el aviso de error
+      else datos completos
+        Cat->>Alm: guardar('productos', productos con el nuevo o el editado)
+        UI-->>A: Actualiza la tabla y confirma "Producto guardado"
+      end
+    else eliminar
+      A->>UI: Pulsa "Eliminar" y confirma
+      UI->>Cat: eliminar(id)
+      Cat->>Alm: guardar('productos', sin el producto)
+      Cat->>Alm: guardar('comentarios', sin los del producto)
+      UI-->>A: Actualiza la tabla
+    end
+  end

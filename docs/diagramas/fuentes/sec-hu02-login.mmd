@@ -1,0 +1,24 @@
+sequenceDiagram
+  autonumber
+  %% HU-02 Inicio de sesión
+  actor U as Cliente o administrador
+  participant UI as login.js
+  participant Auth as AuthService
+  participant Alm as Almacen
+  U->>UI: Ingresa correo y contraseña y envía
+  UI->>Auth: iniciarSesion(correo, clave)
+  Auth->>Alm: leer('usuarios')
+  Alm-->>Auth: usuarios
+  Auth->>Auth: busca el correo y compara sha256(clave) con el hash guardado
+  alt credenciales inválidas
+    Auth-->>UI: Error "Correo o contraseña incorrectos"
+    UI-->>U: Muestra el aviso y permanece en el formulario
+  else credenciales válidas
+    Auth->>Alm: guardar('sesion', id)
+    Auth-->>UI: usuario (sin el hash de la clave)
+    alt rol Admin
+      UI-->>U: Redirige al panel de pedidos (RN-06)
+    else rol Cliente
+      UI-->>U: Redirige al catálogo o a la página solicitada
+    end
+  end

@@ -1,0 +1,24 @@
+sequenceDiagram
+  autonumber
+  %% HU-01 Registro de cuenta
+  actor V as Visitante
+  participant UI as registro.js
+  participant Auth as AuthService
+  participant Alm as Almacen
+  V->>UI: Completa el formulario y lo envía
+  UI->>Auth: registrar(datos)
+  Auth->>Alm: leer('usuarios')
+  Alm-->>Auth: usuarios
+  alt el correo ya está registrado
+    Auth-->>UI: Error "El correo ya está en uso"
+    UI-->>V: Muestra el aviso de error
+  else las contraseñas no coinciden o tienen menos de 6 caracteres
+    Auth-->>UI: Error de contraseña
+    UI-->>V: Muestra el aviso de error
+  else datos válidos
+    Auth->>Auth: sha256(clave) y rol = Cliente (RNF-01)
+    Auth->>Alm: guardar('usuarios', usuarios + nuevo)
+    Auth->>Alm: guardar('sesion', id)
+    Auth-->>UI: usuario (sin el hash de la clave)
+    UI-->>V: Redirige al catálogo con la sesión iniciada
+  end

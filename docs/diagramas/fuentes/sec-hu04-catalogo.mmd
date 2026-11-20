@@ -1,0 +1,14 @@
+sequenceDiagram
+  autonumber
+  %% HU-04 Explorar catálogo
+  actor C as Cliente
+  participant UI as catalogo.js
+  participant Cat as CatalogoService
+  participant Alm as Almacen
+  C->>UI: Abre la página principal
+  UI->>Cat: listarDisponibles()
+  Cat->>Alm: leer('productos')
+  Alm-->>Cat: todos los productos
+  Cat->>Cat: conserva solo los de estado "disponible" (RF-04)
+  Cat-->>UI: productos disponibles
+  UI-->>C: Muestra las tarjetas con imagen, nombre y precio

@@ -1,0 +1,28 @@
+sequenceDiagram
+  autonumber
+  %% HU-08 Aplicar cupón de descuento (Strategy + Factory Method)
+  actor C as Cliente
+  participant UI as carrito.js
+  participant Car as CarritoService
+  participant Alm as Almacen
+  participant Fab as DescuentoFactory
+  participant Est as EstrategiaDescuento
+  C->>UI: Escribe el código del cupón y pulsa "Aplicar"
+  UI->>Car: aplicarCupon(usuarioId, codigo)
+  Car->>Alm: leer('cupones')
+  Alm-->>Car: cupones
+  alt el cupón no existe o está inactivo
+    Car-->>UI: Error "El cupón no es válido"
+    UI-->>C: Muestra el aviso y el total no cambia
+  else cupón activo
+    Car->>Alm: guardar('carritos', carrito con el cupón)
+    Car-->>UI: cupón aplicado
+    UI->>Car: resumen(usuarioId)
+    Car->>Fab: crear(cupon)
+    Note over Fab: RN-03: si el valor contiene % es porcentual, si es numérico es fijo
+    Fab-->>Car: estrategia (porcentual, fija o sin descuento)
+    Car->>Est: calcular(subtotal)
+    Est-->>Car: descuento (nunca mayor al subtotal)
+    Car-->>UI: subtotal, descuento, envío de $10.000 y total (RN-02)
+    UI-->>C: Muestra el resumen con el nuevo total
+  end

@@ -1,0 +1,25 @@
+sequenceDiagram
+  autonumber
+  %% HU-13 Ver listado de pedidos (Administrador)
+  actor A as Administrador
+  participant UI as admin-pedidos.js
+  participant Auth as AuthService
+  participant Ped as PedidoService
+  participant Bit as Bitacora
+  participant Alm as Almacen
+  A->>UI: Abre "Pedidos recibidos"
+  UI->>Auth: usuarioActual()
+  Auth-->>UI: usuario con su rol
+  alt el usuario no es Admin (RN-06)
+    UI-->>A: Redirige al catálogo
+  else es Admin
+    UI->>Ped: listar()
+    Ped->>Alm: leer('pedidos')
+    Alm-->>Ped: pedidos
+    Ped-->>UI: pedidos
+    UI->>Bit: listar()
+    Bit->>Alm: leer('bitacora')
+    Alm-->>Bit: registros
+    Bit-->>UI: registros de pagos, correos y despachos
+    UI-->>A: Muestra cliente, productos, total y estado de cada pedido, y la bitácora
+  end

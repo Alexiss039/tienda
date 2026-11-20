@@ -184,3 +184,93 @@ El administrador elige un pedido; el estado actual (State) indica a qué estados
 - Fuente editable: [fuentes/act-hu14-despacho.mmd](fuentes/act-hu14-despacho.mmd)
 - Enlace editable (mermaid.live): _pendiente de pegar_
 
+## Secuencia HU-01 Registro de cuenta
+
+![Secuencia HU-01 Registro de cuenta](imagenes/sec-hu01-registro.png)
+
+El visitante envía el formulario; `AuthService.registrar` valida que el correo sea nuevo y que las contraseñas coincidan, cifra la clave con SHA-256 (RNF-01), crea el usuario con rol Cliente y deja la sesión iniciada.
+
+- Fuente editable: [fuentes/sec-hu01-registro.mmd](fuentes/sec-hu01-registro.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-02 Inicio de sesión
+
+![Secuencia HU-02 Inicio de sesión](imagenes/sec-hu02-login.png)
+
+`AuthService.iniciarSesion` compara el hash de la clave; con credenciales válidas guarda la sesión y la página redirige según el rol (Admin al panel de pedidos, Cliente al catálogo).
+
+- Fuente editable: [fuentes/sec-hu02-login.mmd](fuentes/sec-hu02-login.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-04 Explorar catálogo
+
+![Secuencia HU-04 Explorar catálogo](imagenes/sec-hu04-catalogo.png)
+
+`CatalogoService.listarDisponibles` lee los productos del almacén y conserva solo los de estado disponible (RF-04) para mostrar imagen, nombre y precio.
+
+- Fuente editable: [fuentes/sec-hu04-catalogo.mmd](fuentes/sec-hu04-catalogo.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-05 Ver detalle de producto
+
+![Secuencia HU-05 Ver detalle de producto](imagenes/sec-hu05-detalle.png)
+
+La página consulta el producto y sus comentarios; si no existe o no está disponible muestra un aviso, y si existe muestra descripción, características, precio, marca y categoría.
+
+- Fuente editable: [fuentes/sec-hu05-detalle.mmd](fuentes/sec-hu05-detalle.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-07 Agregar producto al carrito
+
+![Secuencia HU-07 Agregar producto al carrito](imagenes/sec-hu07-carrito.png)
+
+Exige sesión; `CarritoService.agregar` valida que el producto esté disponible y, si ya estaba en el carrito, suma la cantidad (RF-07) antes de guardar el carrito del usuario.
+
+- Fuente editable: [fuentes/sec-hu07-carrito.mmd](fuentes/sec-hu07-carrito.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-08 Aplicar cupón de descuento
+
+![Secuencia HU-08 Aplicar cupón de descuento](imagenes/sec-hu08-cupon.png)
+
+Muestra Strategy y Factory Method en acción: `DescuentoFactory.crear` elige la estrategia según el cupón (RN-03) y `EstrategiaDescuento.calcular` devuelve el descuento con el que se arma el total (RN-02).
+
+- Fuente editable: [fuentes/sec-hu08-cupon.mmd](fuentes/sec-hu08-cupon.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-09 Realizar pedido con Wompi
+
+![Secuencia HU-09 Realizar pedido con Wompi](imagenes/sec-hu09-checkout.png)
+
+Secuencia central del sistema: `CheckoutService` orquesta el resumen, la creación del pedido Pendiente (RN-04), el cobro mediante el Adapter, la validación de la firma (RNF-02), la transición con State y los eventos que atienden la bitácora y el correo (Observer).
+
+- Fuente editable: [fuentes/sec-hu09-checkout.mmd](fuentes/sec-hu09-checkout.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-11 Gestionar productos
+
+![Secuencia HU-11 Gestionar productos](imagenes/sec-hu11-productos.png)
+
+Acceso solo para Admin (RN-06); crear o editar valida los datos obligatorios (RN-01) y eliminar borra también los comentarios asociados.
+
+- Fuente editable: [fuentes/sec-hu11-productos.mmd](fuentes/sec-hu11-productos.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-13 Ver listado de pedidos
+
+![Secuencia HU-13 Ver listado de pedidos](imagenes/sec-hu13-pedidos.png)
+
+El administrador consulta los pedidos y la bitácora de pagos, correos y despachos desde `PedidoService` y `Bitacora`, con acceso restringido al rol Admin.
+
+- Fuente editable: [fuentes/sec-hu13-pedidos.mmd](fuentes/sec-hu13-pedidos.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+
+## Secuencia HU-14 Actualizar estado de envío
+
+![Secuencia HU-14 Actualizar estado de envío](imagenes/sec-hu14-despacho.png)
+
+El estado actual (State) indica a qué estados puede pasar el pedido y el panel solo ofrece esas opciones; al guardar se valida la transición, se actualiza el pedido y se emite un evento que el observador registra en la bitácora.
+
+- Fuente editable: [fuentes/sec-hu14-despacho.mmd](fuentes/sec-hu14-despacho.mmd)
+- Enlace editable (mermaid.live): _pendiente de pegar_
+

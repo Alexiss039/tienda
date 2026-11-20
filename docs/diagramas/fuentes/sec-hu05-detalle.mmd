@@ -1,0 +1,21 @@
+sequenceDiagram
+  autonumber
+  %% HU-05 Ver detalle de producto
+  actor C as Cliente
+  participant UI as detalle.js
+  participant Cat as CatalogoService
+  participant Alm as Almacen
+  C->>UI: Pulsa "Ver detalle" de un producto
+  UI->>Cat: obtener(id)
+  Cat->>Alm: leer('productos')
+  Alm-->>Cat: productos
+  Cat-->>UI: producto o nulo
+  alt el producto no existe o no está disponible
+    UI-->>C: Muestra "El producto no existe o no está disponible"
+  else producto disponible
+    UI->>Cat: comentarios(id)
+    Cat->>Alm: leer('comentarios')
+    Alm-->>Cat: comentarios
+    Cat-->>UI: comentarios del producto
+    UI-->>C: Muestra descripción, características, precio, marca, categoría y comentarios
+  end
